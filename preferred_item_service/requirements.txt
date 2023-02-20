@@ -1,0 +1,5 @@
+fastapi 
+pytest
+fastapi-route-logger-middleware
+starlette
+mangum

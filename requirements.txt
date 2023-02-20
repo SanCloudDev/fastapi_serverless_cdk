@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+pytest
+mangum
+aws-cdk-lib
+constructs>=10.0.0,<11.0.0
+aws_cdk.aws_apigatewayv2_integrations_alpha 
+aws_cdk.aws_apigatewayv2_authorizers_alpha

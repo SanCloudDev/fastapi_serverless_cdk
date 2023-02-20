@@ -42,7 +42,7 @@ docker run -p 8000:80 preferred_item_api:latest
  
  ### Usage
  - navigate to http://127.0.0.1:80/docs#/
- - ![instruction]("https://github.com/santhosh-aws/Assignment/blob/main/usage.gif")
+ - ![instruction](https://github.com/santhosh-aws/Assignment/blob/main/usage.gif)
 
 ## Architecture
 ### DataModel
@@ -51,6 +51,7 @@ docker run -p 8000:80 preferred_item_api:latest
 - ![aws](https://github.com/santhosh-aws/Assignment/blob/main/custom-auth-workflow.png)
 
 ### Service Flow
+
 graph TD;
     A[Client]-->B[Uvicorn Server];
     D[Preferred Item Domain Service];
@@ -61,6 +62,7 @@ graph TD;
     P-->D;
 
 ## Possible improvements
+
 - Implement a score-based approach for determining the preferred item, considering the weight of price and status.
 - Employ caching mechanisms such as Redis or Memcached to speed up data retrieval and reduce server load.
 - Implement rate limiting to restrict the number of requests made to the service within a given period of time, preventing server overload.

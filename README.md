@@ -42,13 +42,13 @@ docker run -p 8000:80 preferred_item_api:latest
  
  ### Usage
  - navigate to http://127.0.0.1:80/docs#/
- - ![instrcution]("/usage.gif")
+ - ![instrcution]("https://github.com/santhosh-aws/Assignment/blob/main/usage.gif")
 
 ## Architecture
 ### DataModel
-- ![diagram](brick.drawio.png)
+- ![diagram](https://github.com/santhosh-aws/Assignment/blob/main/brick.drawio.png)
 ### AWS Auth Flow
-- ![aws](custom-auth-workflow.png)
+- ![aws](https://github.com/santhosh-aws/Assignment/blob/main/custom-auth-workflow.png)
 
 graph TD;
     A[Client]-->B[Uvicorn Server];

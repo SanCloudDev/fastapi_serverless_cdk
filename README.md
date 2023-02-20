@@ -42,14 +42,15 @@ docker run -p 8000:80 preferred_item_api:latest
  
  ### Usage
  - navigate to http://127.0.0.1:80/docs#/
- - ![instrcution]("https://github.com/santhosh-aws/Assignment/blob/main/usage.gif")
+ - ![instruction]("https://github.com/santhosh-aws/Assignment/blob/main/usage.gif")
 
 ## Architecture
 ### DataModel
-- ![diagram](https://github.com/santhosh-aws/Assignment/blob/main/brick.drawio.png)
+- ![DataModel](https://github.com/santhosh-aws/Assignment/blob/main/brick.drawio.png)
 ### AWS Auth Flow
 - ![aws](https://github.com/santhosh-aws/Assignment/blob/main/custom-auth-workflow.png)
 
+### Service Flow
 graph TD;
     A[Client]-->B[Uvicorn Server];
     D[Preferred Item Domain Service];

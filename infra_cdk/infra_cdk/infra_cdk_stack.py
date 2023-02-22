@@ -110,8 +110,7 @@ class InfraCdkStack(Stack):
             route_key=apigateway.HttpRouteKey.with_(
                 "/docs", apigateway.HttpMethod.ANY
             ),
-            
-            authorizer=authorizer,
+             
         )
         
                 # create http route for api gateway
@@ -125,49 +124,21 @@ class InfraCdkStack(Stack):
             ),
             route_key=apigateway.HttpRouteKey.with_(
                 "/openapi.json", apigateway.HttpMethod.ANY
-            ),
-            authorizer=authorizer,
+            ), 
         )
-        item_route = apigateway.HttpRoute(
+        proxy_route = apigateway.HttpRoute(
             self,
-            "item_route",
+            "proxy_route",
             http_api=preferred_item_service_api,
             integration=HttpLambdaIntegration(
                 id="preferred_item_service",
                 handler=preferred_item_service,
             ),
             route_key=apigateway.HttpRouteKey.with_(
-                "/items", apigateway.HttpMethod.ANY
+                "/{proxy+}", apigateway.HttpMethod.ANY
             ),
             authorizer=authorizer,
         )
-        masterdata_route = apigateway.HttpRoute(
-            self,
-            "masterdata_route",
-            http_api=preferred_item_service_api,
-            integration=HttpLambdaIntegration(
-                id="preferred_item_service",
-                handler=preferred_item_service,
-            ),
-            route_key=apigateway.HttpRouteKey.with_(
-                "/masterdata", apigateway.HttpMethod.ANY
-            ),
-            authorizer=authorizer,
-        )
-        preferred_route = apigateway.HttpRoute(
-            self,
-            "preferred_route",
-            http_api=preferred_item_service_api,
-            integration=HttpLambdaIntegration(
-                id="preferred_item_service",
-                handler=preferred_item_service,
-            ),
-            route_key=apigateway.HttpRouteKey.with_(
-                "/preferreditem", apigateway.HttpMethod.ANY
-            ),
-            authorizer=authorizer,
-        )
-
 
 def create_lambda(
     cls: classmethod,

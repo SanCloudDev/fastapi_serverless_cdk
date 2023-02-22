@@ -20,10 +20,10 @@ async def get_item(item_id: str):
 
 
 @router.get("/")
-async def get_all():
+def get_all():
     """
     Get all items
     """
 
-    logger.info(f"All items : {items}")
+    # logger.info(f"All items : {items}")
     return items

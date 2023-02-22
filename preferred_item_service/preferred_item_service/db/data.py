@@ -7,6 +7,7 @@ logger = custom_logger(__file__)
 # Dummy Data for testing purpose
 
 logger.info("fetching data")
+
 items = [
     Item(
         identifier="item1",
@@ -52,6 +53,9 @@ items = [
         ],
     ),
     Item(identifier="item8", bricks=[Brick(design_id=2, color_codes=[1, 2])]),
+    Item(identifier="item9", bricks=[Brick(design_id=2, color_codes=[1, 2])]),
+    Item(identifier="item10", bricks=[Brick(design_id=2, color_codes=[1, 2])]),
+    Item(identifier="item11", bricks=[Brick(design_id=2, color_codes=[1, 2])]),
 ]
 
 master_data = [
@@ -62,5 +66,8 @@ master_data = [
     MasterData(identifier="item5", status=ItemStatus.Normal, price=9.0),
     MasterData(identifier="item6", status=ItemStatus.Novelty, price=6.0),
     MasterData(identifier="item7", status=ItemStatus.Outgoing, price=4.0),
-    MasterData(identifier="item8", status=ItemStatus.Normal, price=3.0),
+    MasterData(identifier="item8", status=ItemStatus.Normal, price=7.0),
+    MasterData(identifier="item9", status=ItemStatus.Novelty, price=3.0),
+    MasterData(identifier="item10", status=ItemStatus.Outgoing, price=3.0),
+    MasterData(identifier="item11", status=ItemStatus.Discontinued, price=10.0),
 ]

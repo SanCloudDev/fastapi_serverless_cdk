@@ -1,9 +1,10 @@
 from fastapi import FastAPI, APIRouter, HTTPException
 from operator import attrgetter
 from functools import reduce
-from collections import defaultdict
-from preferred_item_service.db.data import items, master_data
+from collections import defaultdict 
 from preferred_item_service.db.model import PreferredItemRequest, PreferredItemResponse, ItemStatus
+from preferred_item_service.app.masterdata_service import get_all_masterdata
+from preferred_item_service.app.item_service import get_all
 
 from preferred_item_service.utils.logger import custom_logger
 logger = custom_logger(__file__)
@@ -13,13 +14,15 @@ logger.info("Preferre Item serivce")
 
 @router.post("/", response_model=PreferredItemResponse)
 def get_preferred_item(request: PreferredItemRequest):
-    logger.info(f"Items Reguest: {request.json}")
+    # logger.info(f"Items Reguest: {request.json}")
     brick_set = set(
         [(brick.design_id, tuple(brick.color_codes)) for brick in request.bricks]
     )
     brick_dict = defaultdict(list)
     for brick in request.bricks:
         brick_dict[brick.design_id].append(tuple(brick.color_codes))
+    items = get_all()
+    master_data = get_all_masterdata()
     possible_items = []
     for item in items:
         item_brick_set = set(
@@ -43,8 +46,11 @@ def get_preferred_item(request: PreferredItemRequest):
                 next(md for md in master_data if md.identifier == item.identifier)
             ),
         ),
-    )
-
+        reverse=True
+    ) 
+    logger.info("status and price wise sorted list: "  )
+    logger.info(sorted_items)
+    
     # get master data of  the items
     item_info = []
     for item in sorted_items:
@@ -63,12 +69,14 @@ def get_preferred_item(request: PreferredItemRequest):
     return {"preferred_item": sorted_items[0], "item_info": item_info[0]}
 
 
-@router.post("/", response_model=PreferredItemResponse)
+@router.post("/score", response_model=PreferredItemResponse)
 def get_preferred_item_score(request: PreferredItemRequest): 
     scores = {}
+    items = get_all()
+    master_data = get_all_masterdata()
     for item in items:
-        item_id = item["id"] 
-        item_bricks = item["bricks"]
+        item_id = item.identifier
+        item_bricks = item.bricks
 
         # Check if the item's bricks match the given bricks
         if all(brick in item_bricks for brick in request.bricks):
@@ -76,9 +84,9 @@ def get_preferred_item_score(request: PreferredItemRequest):
             item_status = None
             item_price = None
             for data in master_data:
-                if data["item_id"] == item_id:
-                    item_status = data["status"]
-                    item_price = data["price"]
+                if data.identifier == item_id:
+                    item_status = data.status
+                    item_price = data.price
                     break
             if item_status and item_price: 
                 if item_status == ItemStatus.Normal:
@@ -95,8 +103,16 @@ def get_preferred_item_score(request: PreferredItemRequest):
 
     sorted_items = sorted(scores.items(), key=lambda x: x[1], reverse=True) 
     if not sorted_items:
-        return None
+        raise HTTPException(
+            status_code=404, detail="No preferred item found for the provided bricks"
+        )
+    
+    logger.info("score wise sorted list: " )
+    logger.info(sorted_items)
     # Get the preferred item, which is the item with the highest score
     preferred_item_id = sorted_items[0][0]
-    preferred_item = next(item for item in items if item["id"] == preferred_item_id)
-    return preferred_item
+    preferred_item = next(item for item in items if item.identifier == preferred_item_id) 
+    item_info = next(md for md in master_data if md.identifier == preferred_item.identifier) 
+
+    
+    return {"preferred_item": preferred_item, "item_info": item_info}

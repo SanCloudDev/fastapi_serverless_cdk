@@ -13,7 +13,7 @@ router = APIRouter()
 @router.get("/")
 def get_all_masterdata(skip: int = 0, limit: int = 100) -> List[MasterData]:
 
-    logger.info(f"All items in master data : {master_data}")
+    # logger.info(f"All items in master data : {master_data}")
     return master_data
 
  
